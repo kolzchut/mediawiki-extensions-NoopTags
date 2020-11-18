@@ -1,0 +1,38 @@
+{
+	"name": "NoopTags",
+	"version": "0.0.1",
+	"author": [
+		"Dror S. [FFS] ([http://www.kolzchut.org.il Kol-Zchut])"
+	],
+	"url": "https://github.com/kolzchut/mediawiki-extensions-NoopTags",
+	"descriptionmsg": "nooptags-desc",
+	"license-name": "GPL-2.0-or-later",
+	"type": "parserhook",
+	"AutoloadClasses": {
+		"MediaWiki\\Extension\\NoopTags\\Hooks": "includes/Hooks.php"
+	},
+	"Hooks": {
+		"ParserFirstCallInit": "MediaWiki\\Extension\\NoopTags\\Hooks::onParserFirstCallInit",
+		"LanguageGetMagic": "MediaWiki\\Extension\\NoopTags\\Hooks::onLanguageGetMagic"
+	},
+	"config": {
+		"NoopTagsBlacklist": {
+			"value": [
+				"blogposts"
+			],
+			"description": "An array of tags to register and make noop"
+		},
+		"NoopTagsFunctionBlacklist": {
+			"value": [
+				"ev"
+			],
+			"description": "An array of parser function to register and make noop"
+		}
+	},
+	"MessagesDirs": {
+		"NoopTags": [
+			"i18n"
+		]
+	},
+	"manifest_version": 2
+}
