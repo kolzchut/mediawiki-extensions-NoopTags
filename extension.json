@@ -24,7 +24,8 @@
 		},
 		"NoopTagsFunctionBlacklist": {
 			"value": [
-				"ev"
+				"ev",
+				"evt"
 			],
 			"description": "An array of parser function to register and make noop"
 		}
