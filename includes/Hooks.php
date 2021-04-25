@@ -8,16 +8,30 @@ namespace MediaWiki\Extension\NoopTags;
 
 use Parser;
 
-class Hooks {
+class Hooks implements
+	\MediaWiki\Hook\GetMagicVariableIDsHook,
+	\MediaWiki\Hook\ParserFirstCallInitHook {
+
+	/**
+	 * This hook is called when the parser initialises for the first time.
+	 *
+	 * @since 1.35
+	 *
+	 * @param Parser $parser Parser object being initialised
+	 * @return bool|void True or no return value to continue or false to abort
+	 */
+
+
 	/**
 	 * This function catches tags / parser functions of extensions that are disabled in Kiosk mode,
 	 * so we can output nothing instead of MediaWiki outputting an error message.
 	 *
-	 * Hook: ParserFirstCallInit
-	 * @param Parser &$parser
-	 * @return true
+	 * This hook is called when the parser initialises for the first time.
+	 *
+	 * @param Parser $parser Parser object being initialised
+	 * @return void True or no return value to continue or false to abort
 	 */
-	public static function onParserFirstCallInit( Parser &$parser ) {
+	public function onParserFirstCallInit( $parser ) {
 		global $wgNoopTagsBlacklist, $wgNoopTagsFunctionBlacklist;
 
 		if ( is_array( $wgNoopTagsBlacklist ) ) {
@@ -31,8 +45,6 @@ class Hooks {
 				$parser->setFunctionHook( $hook, [ __CLASS__, 'renderStub' ] );
 			};
 		}
-
-		return true;
 	}
 
 	/**
@@ -45,26 +57,23 @@ class Hooks {
 	}
 
 	/**
-	 * This hook has been deprecated since MediaWiki 1.16, but is still around today (1.28).
-	 * IMPORTANT: it's gone in 1.33!
-	 * Its use here is somewhat of a hack, to dynamically add magic words that are declared
-	 * onParserFirstCallInit. However, there's no other way to dynamically declare magic words.
+	 * We use this hook
 	 *
-	 * Hook: ParserFirstCallInit
-	 * @param array &$magicWords
-	 * @param string $langCode
+	 * Use this hook to modify the list of magic variables.
+	 * Magic variables are localized with the magic word system,
+	 * and this hook is called by MagicWordFactory.
 	 *
-	 * @return bool
+	 * @since 1.35
+	 *
+	 * @param string[] &$variableIDs array of magic word identifiers
+	 * @return void True or no return value to continue or false to abort
 	 */
-	public static function onLanguageGetMagic( array &$magicWords, $langCode ) {
+	public function onGetMagicVariableIDs( &$variableIDs ) {
 		global $wgNoopTagsBlacklist, $wgNoopTagsFunctionBlacklist;
 		$newWords = array_merge( $wgNoopTagsBlacklist, $wgNoopTagsFunctionBlacklist );
 
 		foreach ( $newWords as $newWord ) {
-			$magicWords[$newWord] = [ 0, $newWord ];
+			$variableIDs[$newWord] = $newWord;
 		}
-
-		return true;
 	}
-
 }

@@ -8,12 +8,20 @@
 	"descriptionmsg": "nooptags-desc",
 	"license-name": "GPL-2.0-or-later",
 	"type": "parserhook",
+	"requires": {
+		"MediaWiki": ">= 1.35.0"
+	},
 	"AutoloadClasses": {
 		"MediaWiki\\Extension\\NoopTags\\Hooks": "includes/Hooks.php"
 	},
 	"Hooks": {
-		"ParserFirstCallInit": "MediaWiki\\Extension\\NoopTags\\Hooks::onParserFirstCallInit",
-		"LanguageGetMagic": "MediaWiki\\Extension\\NoopTags\\Hooks::onLanguageGetMagic"
+		"ParserFirstCallInit": "handleHooks",
+		"GetMagicVariableIDs": "handleHooks"
+	},
+	"HookHandlers": {
+		"handleHooks": {
+			"class": "MediaWiki\\Extension\\NoopTags\\Hooks"
+		}
 	},
 	"config": {
 		"NoopTagsBlacklist": {
@@ -34,6 +42,9 @@
 		"NoopTags": [
 			"i18n"
 		]
+	},
+	"ExtensionMessagesFiles": {
+		"NoopTagsMagic": "NoopTags.i18n.magic.php"
 	},
 	"manifest_version": 2
 }
