@@ -16,7 +16,7 @@
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "handleHooks",
-		"GetMagicVariableIDs": "handleHooks"
+		"ParserBeforeInternalParse": "handleHooks"
 	},
 	"HookHandlers": {
 		"handleHooks": {
@@ -42,9 +42,6 @@
 		"NoopTags": [
 			"i18n"
 		]
-	},
-	"ExtensionMessagesFiles": {
-		"NoopTagsMagic": "NoopTags.i18n.magic.php"
 	},
 	"manifest_version": 2
 }
