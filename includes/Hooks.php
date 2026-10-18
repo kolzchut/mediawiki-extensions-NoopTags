@@ -17,7 +17,8 @@ use Parser;
 
 class Hooks implements
 	ParserFirstCallInitHook,
-	ParserBeforeInternalParseHook {
+	ParserBeforeInternalParseHook
+{
 
 	/**
 	 * Register stub handlers for blacklisted *tags*.
